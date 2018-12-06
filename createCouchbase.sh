@@ -20,4 +20,4 @@ allowVolumeExpansion: true
 volumeBindingMode: Immediate
 EOF
 
-kubectl apply -f https://raw.githubusercontent.com/justdomepaul/couchbase-cluster-kubernetes/master/deploy/couchbase-statefulset.yml
+kubectl apply -f https://raw.githubusercontent.com/justdomepaul/couchbase-cluster-kubernetes/master/couchbase-statefulset.yml
