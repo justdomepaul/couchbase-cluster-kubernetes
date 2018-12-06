@@ -23,7 +23,7 @@ spec:
       terminationGracePeriodSeconds: 0
       containers:
       - name: couchbase-cluster
-        image: justdomepaul/couchbase-cluster:latest
+        image: docker.io/justdomepaul/couchbase-cluster:latest
         ports:
         - name: couchbase-port
           containerPort: 8091
