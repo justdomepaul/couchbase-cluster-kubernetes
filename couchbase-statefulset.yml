@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: $COUCHBASE_CLUSTER_NAME
+  namespace: $COUCHBASE_CLUSTER_NAME
+  labels:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-cluster
+spec:
+  replicas: 2
+  serviceName: $COUCHBASE_CLUSTER_NAME-svc
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: couchbase-server
+      app.kubernetes.io/name: couchbase-cluster
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: couchbase-server
+        app.kubernetes.io/name: couchbase-cluster
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: $COUCHBASE_CLUSTER_NAME
+        image: justdomepaul/couchbase-cluster:latest
+        ports:
+        - name: couchbase-port
+          containerPort: 8091
+        volumeMounts:
+        - name: couchbase-data
+          mountPath: /opt/couchbase/var
+        env:
+        - name: COUCHBASE_MASTER
+          value: $COUCHBASE_CLUSTER_NAME-0.$COUCHBASE_CLUSTER_NAME.$COUCHBASE_CLUSTER_NAME.svc.cluster.local"
+        - name: AUTO_REBALANCE
+          value: true
+  volumeClaimTemplates:
+  - metadata:
+      name: couchbase-cluster-pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: sc-couchbase
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $COUCHBASE_CLUSTER_NAME-svc
+  namespace: $COUCHBASE_CLUSTER_NAME
+  labels:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-cluster
+spec:
+  ports:
+  - name: couchbase
+    port: 8091
+  # *.couchbase.default.svc.cluster.local
+  clusterIP: None
+  selector:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $COUCHBASE_CLUSTER_NAME-ui
+  namespace: $COUCHBASE_CLUSTER_NAME
+  labels:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-ui
+spec:
+  ports:
+  - name: couchbase-ui
+    port: 8091
+  selector:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-cluster
+  sessionAffinity: ClientIP
+  type: LoadBalancer
