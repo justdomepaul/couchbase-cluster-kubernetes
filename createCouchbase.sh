@@ -25,7 +25,7 @@ printf "enter the couchbase administrator cluster username:"
 read USERNAME
 
 stty -echo
-printf "enter the couchbase administrator cluster password:"
+printf "enter the couchbase administrator cluster password(must over 8 words):"
 read PASSWORD
 stty echo
 
