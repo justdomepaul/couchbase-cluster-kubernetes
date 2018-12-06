@@ -28,7 +28,7 @@ spec:
         - name: couchbase-port
           containerPort: 8091
         volumeMounts:
-        - name: couchbase-data
+        - name: couchbase-cluster-pvc
           mountPath: /opt/couchbase/var
         env:
         - name: COUCHBASE_MASTER
