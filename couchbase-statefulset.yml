@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
 spec:
-  replicas: 2
+  replicas: 3
   serviceName: couchbase-cluster-svc
   selector:
     matchLabels:
