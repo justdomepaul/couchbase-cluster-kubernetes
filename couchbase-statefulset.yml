@@ -32,7 +32,7 @@ spec:
           mountPath: /opt/couchbase/var
         env:
         - name: COUCHBASE_MASTER
-          value: "couchbase-cluster-0.couchbase-cluster.couchbase-cluster.svc.cluster.local"
+          value: "couchbase-cluster-0.couchbase-cluster-svc.couchbase-cluster.svc.cluster.local"
         - name: AUTO_REBALANCE
           value: "true"
         - name: CLUSTER_CUSTOM_USERNAME
