@@ -21,9 +21,9 @@ allowVolumeExpansion: true
 volumeBindingMode: Immediate
 EOF
 
-echo -n "enter the couchbase administrator cluster username"
+echo -n "enter the couchbase administrator cluster username:"
 read USERNAME
-echo -n "enter the couchbase administrator cluster password"
+echo -n "enter the couchbase administrator cluster password:"
 read PASSWORD
 
 USERNAME=$(echo -n $USERNAME | base64)
