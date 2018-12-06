@@ -35,6 +35,16 @@ spec:
           value: "couchbase-cluster-0.couchbase-cluster.couchbase-cluster.svc.cluster.local"
         - name: AUTO_REBALANCE
           value: "true"
+        - name: CLUSTER_CUSTOM_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: couchbase-administrator
+              key: username
+        - name: CLUSTER_CUSTOM_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: couchbase-administrator
+              key: password
   volumeClaimTemplates:
   - metadata:
       name: couchbase-cluster-pvc
