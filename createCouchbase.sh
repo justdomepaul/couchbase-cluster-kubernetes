@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export COUCHBASE_CLUSTER_NAME=couchbase-cluster
+export NAMESPACE=couchbase-cluster
 export STORAGECLASSNAME=sc-couchbase
 
 kubectl create namespace "$NAMESPACE"

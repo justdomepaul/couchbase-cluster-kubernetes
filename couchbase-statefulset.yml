@@ -2,14 +2,14 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: $COUCHBASE_CLUSTER_NAME
-  namespace: $COUCHBASE_CLUSTER_NAME
+  name: couchbase-cluster
+  namespace: couchbase-cluster
   labels:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
 spec:
   replicas: 2
-  serviceName: $COUCHBASE_CLUSTER_NAME-svc
+  serviceName: couchbase-cluster-svc
   selector:
     matchLabels:
       app.kubernetes.io/component: couchbase-server
@@ -22,7 +22,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 0
       containers:
-      - name: $COUCHBASE_CLUSTER_NAME
+      - name: couchbase-cluster
         image: justdomepaul/couchbase-cluster:latest
         ports:
         - name: couchbase-port
@@ -32,7 +32,7 @@ spec:
           mountPath: /opt/couchbase/var
         env:
         - name: COUCHBASE_MASTER
-          value: $COUCHBASE_CLUSTER_NAME-0.$COUCHBASE_CLUSTER_NAME.$COUCHBASE_CLUSTER_NAME.svc.cluster.local"
+          value: couchbase-cluster-0.couchbase-cluster.couchbase-cluster.svc.cluster.local"
         - name: AUTO_REBALANCE
           value: true
   volumeClaimTemplates:
@@ -49,8 +49,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: $COUCHBASE_CLUSTER_NAME-svc
-  namespace: $COUCHBASE_CLUSTER_NAME
+  name: couchbase-cluster-svc
+  namespace: couchbase-cluster
   labels:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
@@ -67,8 +67,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: $COUCHBASE_CLUSTER_NAME-ui
-  namespace: $COUCHBASE_CLUSTER_NAME
+  name: couchbase-cluster-ui
+  namespace: couchbase-cluster
   labels:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-ui
