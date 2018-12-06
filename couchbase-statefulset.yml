@@ -32,9 +32,9 @@ spec:
           mountPath: /opt/couchbase/var
         env:
         - name: COUCHBASE_MASTER
-          value: couchbase-cluster-0.couchbase-cluster.couchbase-cluster.svc.cluster.local"
+          value: "couchbase-cluster-0.couchbase-cluster.couchbase-cluster.svc.cluster.local"
         - name: AUTO_REBALANCE
-          value: true
+          value: "true"
   volumeClaimTemplates:
   - metadata:
       name: couchbase-cluster-pvc
