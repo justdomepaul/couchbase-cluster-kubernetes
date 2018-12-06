@@ -29,6 +29,7 @@ printf "enter the couchbase administrator cluster password:"
 read PASSWORD
 stty echo
 
+printf "\n"
 
 USERNAME=$(echo -n $USERNAME | base64)
 PASSWORD=$(echo -n $PASSWORD | base64)
