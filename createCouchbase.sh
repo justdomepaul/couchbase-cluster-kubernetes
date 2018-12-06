@@ -2,6 +2,7 @@
 
 export NAMESPACE=couchbase-cluster
 export STORAGECLASSNAME=sc-couchbase
+export SECRETNAME=couchbase-administrator
 
 kubectl create namespace "$NAMESPACE"
 
@@ -18,6 +19,28 @@ provisioner: kubernetes.io/gce-pd
 reclaimPolicy: Retain
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
+EOF
+
+echo -n "enter the couchbase administrator cluster username"
+read USERNAME
+echo -n "enter the couchbase administrator cluster password"
+read PASSWORD
+
+USERNAME=$(echo -n $USERNAME | base64)
+PASSWORD=$(echo -n $PASSWORD | base64)
+
+kubectl delete secret SECRETNAME -n "$NAMESPACE"
+
+cat <<EOF | kubectl create -f -
+apiVersion: v1
+kind: Secret
+metadata:
+        namespace: ${NAMESPACE}
+        name: ${SECRETNAME}
+type: Opaque
+data:
+        username: ${USERNAME}
+        password: ${PASSWORD}
 EOF
 
 kubectl apply -f https://raw.githubusercontent.com/justdomepaul/couchbase-cluster-kubernetes/master/couchbase-statefulset.yml
