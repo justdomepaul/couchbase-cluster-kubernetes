@@ -90,4 +90,4 @@ spec:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
   sessionAffinity: ClientIP
-  type: LoadBalancer
+  type: ClusterIP
