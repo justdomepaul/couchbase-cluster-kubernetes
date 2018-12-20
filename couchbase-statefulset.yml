@@ -113,7 +113,7 @@ spec:
     spec:
       containers:
       - name: couchbase
-        image: docker.io/justdomepaul/couchbase-cluster:latest
+        image: docker.io/justdomepaul/couchbase-cluster:ce6.0.0
         ports:
         - name: couchbase-port
           containerPort: 8091
