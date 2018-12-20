@@ -27,14 +27,20 @@ spec:
           ports:
           - name: couchbase-port
             containerPort: 8091
-          - name: couchbase-api
+          - name: couchbase-xdcr
             containerPort: 8092
-          - name: couchbase-ssl
-            containerPort: 11207
           - name: couchbase-rest
-            containerPort: 18091
-          - name: couchbase-capi
-            containerPort: 18092
+            containerPort: 8093
+          - name: couchbase-search
+            containerPort: 8094
+          - name: couchbase-analytic
+            containerPort: 8095
+          - name: couchbase-event
+            containerPort: 8096
+          - name: couchbase-data
+            containerPort: 11210
+          - name: couchbase-moxi
+            containerPort: 11211
           volumeMounts:
           - name: couchbase-cluster-pvc
             mountPath: /opt/couchbase/var
@@ -74,21 +80,30 @@ metadata:
     app.kubernetes.io/name: couchbase-cluster
 spec:
   ports:
-  - name: couchbase
+  - name: couchbase-port
     port: 8091
     targetPort: 8091
-  - name: couchbase-api
+  - name: couchbase-xdcr
     port: 8092
     targetPort: 8092
-  - name: couchbase-ssl
-    port: 11207
-    targetPort: 11207
   - name: couchbase-rest
-    port: 18091
-    targetPort: 18091
-  - name: couchbase-capi
-    port: 18092
-    targetPort: 18092
+    port: 8093
+    targetPort: 8093
+  - name: couchbase-search
+    port: 8094
+    targetPort: 8094
+  - name: couchbase-analytic
+    port: 8095
+    targetPort: 8095
+  - name: couchbase-event
+    port: 8096
+    targetPort: 8096
+  - name: couchbase-data
+    port: 11210
+    targetPort: 11210
+  - name: couchbase-moxi
+    port: 11211
+    targetPort: 11211
   # *.couchbase.default.svc.cluster.local
   clusterIP: None
   selector:
@@ -105,21 +120,30 @@ metadata:
     app.kubernetes.io/name: couchbase-ui
 spec:
   ports:
-    - name: couchbase
-      port: 8091
-      targetPort: 8091
-    - name: couchbase-api
-      port: 8092
-      targetPort: 8092
-    - name: couchbase-ssl
-      port: 11207
-      targetPort: 11207
-    - name: couchbase-rest
-      port: 18091
-      targetPort: 18091
-    - name: couchbase-capi
-      port: 18092
-      targetPort: 18092
+  - name: couchbase-port
+    port: 8091
+    targetPort: 8091
+  - name: couchbase-xdcr
+    port: 8092
+    targetPort: 8092
+  - name: couchbase-rest
+    port: 8093
+    targetPort: 8093
+  - name: couchbase-search
+    port: 8094
+    targetPort: 8094
+  - name: couchbase-analytic
+    port: 8095
+    targetPort: 8095
+  - name: couchbase-event
+    port: 8096
+    targetPort: 8096
+  - name: couchbase-data
+    port: 11210
+    targetPort: 11210
+  - name: couchbase-moxi
+    port: 11211
+    targetPort: 11211
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
