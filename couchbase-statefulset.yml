@@ -1,8 +1,83 @@
 ---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: couchbase-cluster
+  namespace: couchbase-cluster
+  labels:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-cluster
+spec:
+  replicas: 3
+  serviceName: couchbase-cluster-discover
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: couchbase-server
+      app.kubernetes.io/name: couchbase-cluster
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: couchbase-server
+        app.kubernetes.io/name: couchbase-cluster
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: couchbase-cluster
+          image: docker.io/justdomepaul/couchbase-cluster:ce6.0.0
+          ports:
+            - name: couchbase-port
+              containerPort: 8091
+            - name: couchbase-api
+              containerPort: 8092
+            - name: couchbase-ssltwoway
+              containerPort: 11207
+            - name: couchbase-bucket
+              containerPort: 11209
+            - name: couchbase-twoway
+              containerPort: 11210
+            - name: couchbase-clientinterface
+              containerPort: 11211
+            - name: couchbase-sslincoming
+              containerPort: 11214
+            - name: couchbase-ssloutgoing
+              containerPort: 11215
+            - name: couchbase-rest
+              containerPort: 18091
+            - name: couchbase-capi
+              containerPort: 18092
+          volumeMounts:
+            - name: couchbase-cluster-pvc
+              mountPath: /opt/couchbase/var
+          env:
+            - name: COUCHBASE_MASTER
+              value: "couchbase-cluster-0.couchbase-cluster-discover.couchbase-cluster.svc.cluster.local"
+            - name: AUTO_REBALANCE
+              value: "true"
+            - name: CLUSTER_CUSTOM_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: couchbase-administrator
+                  key: username
+            - name: CLUSTER_CUSTOM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: couchbase-administrator
+                  key: password
+  volumeClaimTemplates:
+    - metadata:
+        name: couchbase-cluster-pvc
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: sc-couchbase
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: couchbase-cluster-discovery
+  name: couchbase-cluster-discover
   namespace: couchbase-cluster
   labels:
     app.kubernetes.io/component: couchbase-server
@@ -54,113 +129,10 @@ metadata:
     app.kubernetes.io/name: couchbase-svc
 spec:
   ports:
-    - name: couchbase-ui
+    - name: couchbase-svc
       port: 8091
-      targetPort: 8091
-    - name: couchbase-api
-      port: 8092
-      targetPort: 8092
-    - name: couchbase-ssltwoway
-      port: 11207
-      targetPort: 11207
-    - name: couchbase-bucket
-      port: 11209
-      targetPort: 11209
-    - name: couchbase-twoway
-      port: 11210
-      targetPort: 11210
-    - name: couchbase-clientinterface
-      port: 11211
-      targetPort: 11211
-    - name: couchbase-sslincoming
-      port: 11214
-      targetPort: 11214
-    - name: couchbase-ssloutgoing
-      port: 11215
-      targetPort: 11215
-    - name: couchbase-rest
-      port: 18091
-      targetPort: 18091
-    - name: couchbase-capi
-      port: 18092
-      targetPort: 18092
+  selector:
+    app.kubernetes.io/component: couchbase-server
+    app.kubernetes.io/name: couchbase-cluster
   sessionAffinity: ClientIP
   type: ClusterIP
-  selector:
-    app.kubernetes.io/component: couchbase-server
-    app.kubernetes.io/name: couchbase-cluster
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  labels:
-    app.kubernetes.io/component: couchbase-server
-    app.kubernetes.io/name: couchbase-cluster
-  name: couchbase-cluster
-  namespace: couchbase-cluster
-spec:
-  replicas: 3
-  serviceName: couchbase-cluster-discovery
-  selector:
-    matchLabels:
-      app.kubernetes.io/component: couchbase-server
-      app.kubernetes.io/name: couchbase-cluster
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/component: couchbase-server
-        app.kubernetes.io/name: couchbase-cluster
-    spec:
-      containers:
-      - name: couchbase
-        image: docker.io/justdomepaul/couchbase-cluster:ce6.0.0
-        ports:
-        - name: couchbase-port
-          containerPort: 8091
-        - name: couchbase-api
-          containerPort: 8092
-        - name: couchbase-ssltwoway
-          containerPort: 11207
-        - name: couchbase-bucket
-          containerPort: 11209
-        - name: couchbase-twoway
-          containerPort: 11210
-        - name: couchbase-clientinterface
-          containerPort: 11211
-        - name: couchbase-sslincoming
-          containerPort: 11214
-        - name: couchbase-ssloutgoing
-          containerPort: 11215
-        - name: couchbase-rest
-          containerPort: 18091
-        - name: couchbase-capi
-          containerPort: 18092
-        volumeMounts:
-        - name: couchbase-cluster-pvc
-          mountPath: /opt/couchbase/var
-        env:
-        - name: COUCHBASE_MASTER
-          value: "couchbase-cluster-0.couchbase-cluster-svc.couchbase-cluster.svc.cluster.local"
-        - name: AUTO_REBALANCE
-          value: "true"
-        - name: CLUSTER_CUSTOM_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: couchbase-administrator
-              key: username
-        - name: CLUSTER_CUSTOM_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: couchbase-administrator
-              key: password
-  volumeClaimTemplates:
-  - metadata:
-      name: couchbase-cluster-pvc
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 5Gi
-      storageClassName: sc-couchbase
----
