@@ -25,26 +25,26 @@ spec:
         - name: couchbase-cluster
           image: docker.io/justdomepaul/couchbase-cluster:ce6.0.0
           ports:
-            - name: couchbase-port
-              containerPort: 8091
+          - name: couchbase-port
+            containerPort: 8091
           volumeMounts:
-            - name: couchbase-cluster-pvc
-              mountPath: /opt/couchbase/var
+          - name: couchbase-cluster-pvc
+            mountPath: /opt/couchbase/var
           env:
-            - name: COUCHBASE_MASTER
-              value: "couchbase-cluster-0.couchbase-cluster-svc.couchbase-cluster.svc.cluster.local"
-            - name: AUTO_REBALANCE
-              value: "true"
-            - name: CLUSTER_CUSTOM_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: couchbase-administrator
-                  key: username
-            - name: CLUSTER_CUSTOM_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: couchbase-administrator
-                  key: password
+          - name: COUCHBASE_MASTER
+            value: "couchbase-cluster-0.couchbase-cluster-svc.couchbase-cluster.svc.cluster.local"
+          - name: AUTO_REBALANCE
+            value: "true"
+          - name: CLUSTER_CUSTOM_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: couchbase-administrator
+                key: username
+          - name: CLUSTER_CUSTOM_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: couchbase-administrator
+                key: password
   volumeClaimTemplates:
     - metadata:
         name: couchbase-cluster-pvc
@@ -66,8 +66,8 @@ metadata:
     app.kubernetes.io/name: couchbase-cluster
 spec:
   ports:
-    - name: couchbase
-      port: 8091
+  - name: couchbase
+    port: 8091
   # *.couchbase.default.svc.cluster.local
   clusterIP: None
   selector:
@@ -84,8 +84,8 @@ metadata:
     app.kubernetes.io/name: couchbase-ui
 spec:
   ports:
-    - name: couchbase-ui
-      port: 8091
+  - name: couchbase-ui
+    port: 8091
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
