@@ -31,10 +31,6 @@ spec:
             containerPort: 8092
           - name: couchbase-rest
             containerPort: 8093
-          - name: couchbase-search
-            containerPort: 8094
-          - name: couchbase-analytic
-            containerPort: 8095
           - name: couchbase-event
             containerPort: 8096
           - name: couchbase-data
@@ -89,12 +85,6 @@ spec:
   - name: couchbase-rest
     port: 8093
     targetPort: 8093
-  - name: couchbase-search
-    port: 8094
-    targetPort: 8094
-  - name: couchbase-analytic
-    port: 8095
-    targetPort: 8095
   - name: couchbase-event
     port: 8096
     targetPort: 8096
@@ -129,12 +119,6 @@ spec:
   - name: couchbase-rest
     port: 8093
     targetPort: 8093
-  - name: couchbase-search
-    port: 8094
-    targetPort: 8094
-  - name: couchbase-analytic
-    port: 8095
-    targetPort: 8095
   - name: couchbase-event
     port: 8096
     targetPort: 8096
