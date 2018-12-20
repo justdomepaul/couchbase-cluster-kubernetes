@@ -40,7 +40,6 @@ spec:
       port: 18092
       targetPort: 18092
   clusterIP: None
-  sessionAffinity: None
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
@@ -52,7 +51,7 @@ metadata:
   namespace: couchbase-cluster
   labels:
     app.kubernetes.io/component: couchbase-server
-    app.kubernetes.io/name: couchbase-cluster
+    app.kubernetes.io/name: couchbase-svc
 spec:
   ports:
     - name: couchbase-ui
@@ -85,7 +84,8 @@ spec:
     - name: couchbase-capi
       port: 18092
       targetPort: 18092
-  sessionAffinity: None
+  sessionAffinity: ClientIP
+  type: ClusterIP
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
