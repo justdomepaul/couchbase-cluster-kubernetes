@@ -113,21 +113,6 @@ spec:
   - name: couchbase-port
     port: 8091
     targetPort: 8091
-  - name: couchbase-xdcr
-    port: 8092
-    targetPort: 8092
-  - name: couchbase-rest
-    port: 8093
-    targetPort: 8093
-  - name: couchbase-event
-    port: 8096
-    targetPort: 8096
-  - name: couchbase-data
-    port: 11210
-    targetPort: 11210
-  - name: couchbase-moxi
-    port: 11211
-    targetPort: 11211
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
