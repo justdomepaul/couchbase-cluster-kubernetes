@@ -29,16 +29,6 @@ spec:
             containerPort: 8091
           - name: couchbase-api
             containerPort: 8092
-          - name: couchbase-ssl
-            containerPort: 11207
-          - name: couchbase-twoway
-            containerPort: 11210
-          - name: couchbase-client
-            containerPort: 11211
-          - name: couchbase-rest
-            containerPort: 18091
-          - name: couchbase-capi
-            containerPort: 18092
           volumeMounts:
           - name: couchbase-cluster-pvc
             mountPath: /opt/couchbase/var
