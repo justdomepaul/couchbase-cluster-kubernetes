@@ -97,7 +97,6 @@ spec:
     port: 18092
     targetPort: 18092
   # *.couchbase.default.svc.cluster.local
-  clusterIP: None
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
