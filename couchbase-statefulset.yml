@@ -31,10 +31,6 @@ spec:
             containerPort: 8092
           - name: couchbase-ssl
             containerPort: 11207
-          - name: couchbase-twoway
-            containerPort: 11210
-          - name: couchbase-client
-            containerPort: 11211
           - name: couchbase-rest
             containerPort: 18091
           - name: couchbase-capi
@@ -80,18 +76,13 @@ spec:
   ports:
   - name: couchbase
     port: 8091
+    targetPort: 8091
   - name: couchbase-api
     port: 8092
     targetPort: 8092
   - name: couchbase-ssl
     port: 11207
     targetPort: 11207
-  - name: couchbase-twoway
-    port: 11210
-    targetPort: 11210
-  - name: couchbase-client
-    port: 11211
-    targetPort: 11211
   - name: couchbase-rest
     port: 18091
     targetPort: 18091
@@ -116,18 +107,13 @@ spec:
   ports:
     - name: couchbase
       port: 8091
+      targetPort: 8091
     - name: couchbase-api
       port: 8092
       targetPort: 8092
     - name: couchbase-ssl
       port: 11207
       targetPort: 11207
-    - name: couchbase-twoway
-      port: 11210
-      targetPort: 11210
-    - name: couchbase-client
-      port: 11211
-      targetPort: 11211
     - name: couchbase-rest
       port: 18091
       targetPort: 18091
