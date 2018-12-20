@@ -66,28 +66,38 @@ metadata:
     app.kubernetes.io/name: couchbase-cluster
 spec:
   ports:
-  - name: couchbase
+  - name: couchbase-ui
     port: 8091
+    targetPort: 8091
+  - name: couchbase-api
+    port: 8092
+    targetPort: 8092
+  - name: couchbase-ssltwoway
+    port: 11207
+    targetPort: 11207
+  - name: couchbase-bucket
+    port: 11209
+    targetPort: 11209
+  - name: couchbase-twoway
+    port: 11210
+    targetPort: 11210
+  - name: couchbase-clientinterface
+    port: 11211
+    targetPort: 11211
+  - name: couchbase-sslincoming
+    port: 11214
+    targetPort: 11214
+  - namse: couchbase-ssloutgoing
+    port: 11215
+    targetPort: 11215
+  - name: couchbase-rest
+    port: 18091
+    targetPort: 18091
+  - name: couchbase-capi
+    port: 18092
+    targetPort: 18092
   # *.couchbase.default.svc.cluster.local
   clusterIP: None
   selector:
     app.kubernetes.io/component: couchbase-server
     app.kubernetes.io/name: couchbase-cluster
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: couchbase-cluster-ui
-  namespace: couchbase-cluster
-  labels:
-    app.kubernetes.io/component: couchbase-server
-    app.kubernetes.io/name: couchbase-ui
-spec:
-  ports:
-  - name: couchbase-ui
-    port: 8091
-  selector:
-    app.kubernetes.io/component: couchbase-server
-    app.kubernetes.io/name: couchbase-cluster
-  sessionAffinity: ClientIP
-  type: ClusterIP
