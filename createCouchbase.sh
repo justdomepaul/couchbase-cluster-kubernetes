@@ -34,7 +34,7 @@ printf "\n"
 USERNAME=$(echo -n $USERNAME | base64)
 PASSWORD=$(echo -n $PASSWORD | base64)
 
-kubectl delete secret SECRETNAME -n "$NAMESPACE"
+kubectl delete secret "$SECRETNAME" -n "$NAMESPACE"
 
 cat <<EOF | kubectl create -f -
 apiVersion: v1
